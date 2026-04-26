@@ -18,7 +18,7 @@ class PrinterSettingFactory extends Factory
     {
         return [
             'cost_per_hour'     => fake()->randomFloat(2, 1.50, 5.00),
-            'volume_per_hour'   => fake()->randomFloat(2, 1.50, 4.00),
+            'mm3_per_hour'   => fake()->randomFloat(2, 1500, 4000),
             'margin_percentage' => fake()->randomFloat(2, 20.00, 40.00),
         ];
     }

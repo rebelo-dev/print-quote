@@ -12,7 +12,7 @@ class PrinterSetting extends Model
 
     protected $fillable = [
         'cost_per_hour',
-        'volume_per_hour',
+        'mm3_per_hour',
         'margin_percentage'
     ];
     //user_id handled in actions

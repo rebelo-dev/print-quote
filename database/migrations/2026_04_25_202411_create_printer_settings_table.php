@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->decimal('cost_per_hour', 8, 2)->default(0);
-            $table->decimal('volume_per_hour', 8, 2)->default(0);
+            $table->decimal('mm3_per_hour', 8, 2)->default(0);
             $table->decimal('margin_percentage', 5, 2)->default(0);
             $table->timestamps();
         });

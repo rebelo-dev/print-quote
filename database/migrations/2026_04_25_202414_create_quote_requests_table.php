@@ -20,7 +20,7 @@ return new class extends Migration
 
             // STL file block
             $table->string('stl_file_path')->nullable();
-            $table->decimal('stl_volume_cm3', 10, 4)->nullable();
+            $table->decimal('stl_volume_mm3', 10, 4)->nullable();
             $table->decimal('stl_dim_x', 10, 4)->nullable();
             $table->decimal('stl_dim_y', 10, 4)->nullable();
             $table->decimal('stl_dim_z', 10, 4)->nullable();

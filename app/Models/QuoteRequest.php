@@ -22,7 +22,7 @@ class QuoteRequest extends Model
     // user_id: handled in actions
     // customer_id: handled in actions 
     // stl_file_path: Given by STL parser
-    // stl_volume_cm3, stl_dim_x/y/z: Given by STL parser
+    // stl_volume_mm3, stl_dim_x/y/z: Given by STL parser
     // estimated_price: calculated via service
     // status: changes via action, defaults as pending 
 
