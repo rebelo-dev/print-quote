@@ -15,7 +15,7 @@ class LoginAction
             return null;
         }
 
-        // Revoke tokens
+        // Revoke tokens from previous session
         $user->tokens()->delete();
 
         $token = $user->createToken('api-token')->plainTextToken;
