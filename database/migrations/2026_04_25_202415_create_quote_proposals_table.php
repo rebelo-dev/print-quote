@@ -9,10 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('quote_proposals', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('quote_request_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('material_id')->nullable()->constrained()->nullOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('quote_request_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('material_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');
             $table->text('description')->nullable();
             $table->decimal('estimated_hours', 8, 2)->nullable();
