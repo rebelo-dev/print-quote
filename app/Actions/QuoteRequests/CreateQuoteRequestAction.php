@@ -14,6 +14,7 @@ class CreateQuoteRequestAction
         $printer = User::where('slug', $data['slug'])->firstOrFail();
 
         // Find or create the customer
+        /*
         $customer = Customer::firstOrCreate(
             [
                 'user_id' => $printer->id,
@@ -22,6 +23,12 @@ class CreateQuoteRequestAction
             [
                 'name' => $data['customer_name'],
             ]
+        );*/
+
+        // Find or create the customer via printer relation
+        $customer = $printer->customers()->firstOrCreate(
+            ['email' => $data['customer_email']],
+            ['name'  => $data['customer_name']]
         );
 
         // Create the quote request via relation (auto-injects user_id)
