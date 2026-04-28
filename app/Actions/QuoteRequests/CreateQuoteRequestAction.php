@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Actions\QuoteRequests;
+
+use App\Models\Customer;
+use App\Models\QuoteRequest;
+use App\Models\User;
+
+class CreateQuoteRequestAction
+{
+    public function execute(array $data): QuoteRequest
+    {
+        // Find the printer by slug
+        $printer = User::where('slug', $data['slug'])->firstOrFail();
+
+        // Find or create the customer
+        $customer = Customer::firstOrCreate(
+            [
+                'user_id' => $printer->id,
+                'email'   => $data['customer_email'],
+            ],
+            [
+                'name' => $data['customer_name'],
+            ]
+        );
+
+        // Create the quote request via relation (auto-injects user_id)
+        $quoteRequest = $printer->quoteRequests()->create([
+            'customer_name'  => $data['customer_name'],
+            'customer_email' => $data['customer_email'],
+            'title'          => $data['title'],
+            'description'    => $data['description'] ?? null,
+            'quantity'       => $data['quantity'] ?? 1,
+        ]);
+
+        // Assign customer (not via direct relation, so new + save pattern)
+        $quoteRequest->customer_id = $customer->id;
+        $quoteRequest->save();
+
+        $quoteRequest->load('customer');
+
+        return $quoteRequest;
+    }
+}
