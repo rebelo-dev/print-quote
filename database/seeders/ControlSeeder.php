@@ -19,7 +19,7 @@ class ControlSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-   public function run(): void
+    public function run(): void
     {
         // Super admin (platform admin)
         User::factory()->superAdmin()->create([
@@ -125,3 +125,11 @@ class ControlSeeder extends Seeder
         }
     }
 }
+
+
+/* 
+
+Passwords for users are "password", but they are being defined in the userfactory, 
+In a future iteration i want to change this and setup the password here for control
+
+*/

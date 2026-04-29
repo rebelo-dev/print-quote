@@ -23,11 +23,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 Route::post('/login',    [AuthController::class, 'login'])->name('auth.login');
 
 // this is to post a quote-request
+//i should introduce rate limiting here, maybe for all posts actually, but this one is mandatory
 Route::post('/quote-requests', [QuoteRequestController::class, 'store'])->name('quote_requests.store');
-
-//this is for the customer to accept/reject a quote proposal
-Route::patch('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
-
 
 
 // Protected routes, requires authentication
@@ -39,10 +36,28 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/quote-requests', [QuoteRequestController::class, 'index'])->name('quote_requests.index');
         Route::get('/quote-requests/{quoteRequest}', [QuoteRequestController::class, 'show'])->name('quote_requests.show');
         Route::patch('/quote-requests/{quoteRequest}', [QuoteRequestController::class, 'update'])->name('quote_requests.update');
+        /* 
+        This patch route atm, is only to reject requests. As the "quoted" status is set,
+        when a printer creates a quote proposal from a request. The customer is not notified of the rejection
+        because this is meant to serve as a history device for the printer for rejected requests.
 
-        Route::post('/quote-proposals', [QuoteProposalController::class, 'store'])->name('quote-proposals.store');
-        Route::get('/quote-proposals', [QuoteProposalController::class, 'index'])->name('quote-proposals.index');
-        Route::get('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'show'])->name('quote-proposals.show');
+        However as quote-proposals are created, the customer should be notified with the real quote by email for acceptance or not.
+        So the idea for the future is that if the printer wants to reject a request, they can append a reason in an email to the customer, or ig, or whatsapp, for that effect i'll have to see what
+        the best way to handle this is, maybe a new migration with a field for that in the quote_requests table.
+        
+        */
+
+
+
+        //QuoteProposal Routes
+
+        //this is for the customer to accept/reject a quote proposal
+        //Route::patch('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
+
+
+        //Route::post('/quote-proposals', [QuoteProposalController::class, 'store'])->name('quote-proposals.store');
+        //Route::get('/quote-proposals', [QuoteProposalController::class, 'index'])->name('quote-proposals.index');
+        //Route::get('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'show'])->name('quote-proposals.show');
         //thinking if i should make a route to see proposals by quote request or maybe customer, same for quote-requests and then jobs, need to look into nested resources maybe, or make custom routes, idk
     });
 });

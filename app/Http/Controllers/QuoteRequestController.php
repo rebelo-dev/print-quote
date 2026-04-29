@@ -19,7 +19,7 @@ class QuoteRequestController extends Controller
             'title'          => 'required|string|max:255',
             'description'    => 'nullable|string',
             'quantity'       => 'integer|min:1',
-            'slug'           => 'required|string|exists:users,slug', //going to use this to find the printer, should be able to associate request with printer
+            'slug'           => 'required|string|exists:users,slug',
         ]);
 
         $result = $action->execute($data);
@@ -27,7 +27,7 @@ class QuoteRequestController extends Controller
         return response()->json($result, 201);
     }
 
-    // all below are for printers, auth required, role check in middleware and own data only
+    // all below are for authenticated printers
     public function index(Request $request): JsonResponse
     {
         $requests = $request->user()
@@ -60,7 +60,12 @@ class QuoteRequestController extends Controller
 
         return response()->json($result);
     }
-
-    // not sure if im making delete now, might not make sense atm
-
 }
+
+
+/*
+Right now im checking ownership right here in the controller, but in a future iteration, I will be moving this into a policy class
+
+Also, data validation is being done in the controller for now, just like ownership check, in a future iteration, i will be moving this into form request classes
+
+*/

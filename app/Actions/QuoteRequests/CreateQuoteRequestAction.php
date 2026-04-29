@@ -13,25 +13,13 @@ class CreateQuoteRequestAction
         // Find the printer by slug
         $printer = User::where('slug', $data['slug'])->firstOrFail();
 
-        // Find or create the customer
-        /*
-        $customer = Customer::firstOrCreate(
-            [
-                'user_id' => $printer->id,
-                'email'   => $data['customer_email'],
-            ],
-            [
-                'name' => $data['customer_name'],
-            ]
-        );*/
-
         // Find or create the customer via printer relation
         $customer = $printer->customers()->firstOrCreate(
             ['email' => $data['customer_email']],
             ['name'  => $data['customer_name']]
         );
 
-        // Create the quote request via relation (auto-injects user_id)
+        // Create the quote request via relation (auto-injects user_id (printer))
         $quoteRequest = $printer->quoteRequests()->create([
             'customer_name'  => $data['customer_name'],
             'customer_email' => $data['customer_email'],
@@ -40,8 +28,8 @@ class CreateQuoteRequestAction
             'quantity'       => $data['quantity'] ?? 1,
         ]);
 
-        // Assign customer (not via direct relation, so new + save pattern)
-        $quoteRequest->customer_id = $customer->id;
+        // Assign customer via relation (associate and saves)
+        $quoteRequest->customer()->associate($customer); //maybe this could be in the create above, because parameters are the same.
         $quoteRequest->save();
 
         $quoteRequest->load('customer');
