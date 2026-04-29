@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuoteRequestController;
+use App\Http\Controllers\QuoteProposalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,17 @@ use App\Http\Controllers\QuoteRequestController;
 */
 
 // Public routes
+//These are for authentication
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/login',    [AuthController::class, 'login'])->name('auth.login');
 
-// quote request (public)
+// this is to post a quote-request
 Route::post('/quote-requests', [QuoteRequestController::class, 'store'])->name('quote_requests.store');
+
+//this is for the customer to accept/reject a quote proposal
+Route::patch('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
+
+
 
 // Protected routes, requires authentication
 Route::middleware('auth:sanctum')->group(function () {
@@ -30,8 +37,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('role:printer')->group(function () {
         Route::get('/quote-requests', [QuoteRequestController::class, 'index'])->name('quote_requests.index');
-        Route::get('/quote-requests/{id}', [QuoteRequestController::class, 'show'])->name('quote_requests.show');
-        Route::patch('/quote-requests/{id}', [QuoteRequestController::class, 'update'])->name('quote_requests.update');
+        Route::get('/quote-requests/{quoteRequest}', [QuoteRequestController::class, 'show'])->name('quote_requests.show');
+        Route::patch('/quote-requests/{quoteRequest}', [QuoteRequestController::class, 'update'])->name('quote_requests.update');
+
+        Route::post('/quote-proposals', [QuoteProposalController::class, 'store'])->name('quote-proposals.store');
+        Route::get('/quote-proposals', [QuoteProposalController::class, 'index'])->name('quote-proposals.index');
+        Route::get('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'show'])->name('quote-proposals.show');
+        //thinking if i should make a route to see proposals by quote request or maybe customer, same for quote-requests and then jobs, need to look into nested resources maybe, or make custom routes, idk
     });
 });
 
