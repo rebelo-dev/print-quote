@@ -51,13 +51,18 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //QuoteProposal Routes
 
-        //this is for the customer to accept/reject a quote proposal
+
+
+        Route::post('/quote-proposals', [QuoteProposalController::class, 'store'])->name('quote-proposals.store');
+        Route::get('/quote-proposals', [QuoteProposalController::class, 'index'])->name('quote-proposals.index');
+        Route::get('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'show'])->name('quote-proposals.show');
+        //this is for the printer do edit a proposal after creation, before sending it to the customer to accept/reject a quote proposal
+        Route::put('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
+
+        //this route is for the customer, to accept or reject a proposal, update action should handle both cases, or ill make a seperate action for it. I have acceptance tokens for this case since this will be a public route.
+        //Route::patch('/quote-proposals/{quoteProposal}/respond', [QuoteProposalController::class, 'respond'])->name('quote-proposals.respond');
         //Route::patch('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
 
-
-        //Route::post('/quote-proposals', [QuoteProposalController::class, 'store'])->name('quote-proposals.store');
-        //Route::get('/quote-proposals', [QuoteProposalController::class, 'index'])->name('quote-proposals.index');
-        //Route::get('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'show'])->name('quote-proposals.show');
         //thinking if i should make a route to see proposals by quote request or maybe customer, same for quote-requests and then jobs, need to look into nested resources maybe, or make custom routes, idk
     });
 });
