@@ -45,9 +45,8 @@ class QuoteProposalController extends Controller
             'price'            => 'required|numeric|min:0',
             'notes'            => 'nullable|string',
         ]);
-
-        // Check if the authenticated user is the owner of the quote request, will move this into controller then policy
-        $quoteRequest = QuoteRequest::FindorFail($data['quote_request_id']);
+        // Find the quote request
+        $quoteRequest = QuoteRequest::findOrFail($data['quote_request_id']);
         abort_if($quoteRequest->user_id !== $request->user()->id, 403, 'Ownership mismatch, you can only create proposals for your own quote requests.');
 
 

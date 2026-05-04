@@ -11,10 +11,6 @@ class CreateQuoteProposalAction
 {
     public function execute(array $data, User $user): QuoteProposal
     {
-
-        // Find the quote request
-        $quoteRequest = QuoteRequest::findOrFail($data['quote_request_id']);
-
         // "Make" the quote proposal via relation (auto-injects user_id (printer))
         $quoteProposal = $user->quoteProposals()->make([
             'title'            => $data['title'],
@@ -27,13 +23,14 @@ class CreateQuoteProposalAction
         ]);
 
         // Assigning quote request id and material id via direct property assignment
-        $quoteProposal->quote_request_id = $quoteRequest->id;
+        $quoteProposal->quote_request_id = $data['quote_request_id'] ?? null;
         $quoteProposal->material_id = $data['material_id'] ?? null;
         $quoteProposal->save(); //saving only the proposal
 
 
 
         //$quoteRequest->update(['status' => 'quoted']);
+        $quoteRequest = QuoteRequest::findOrFail($data['quote_request_id']);
         $quoteRequest->status = 'quoted';
         $quoteRequest->save(); // saving the quote request with new status, this is an update to this model - line 36 doesn't work because since status is not in the fillable, its ignored and assigned a null value
 
