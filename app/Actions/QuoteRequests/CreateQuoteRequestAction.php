@@ -19,7 +19,7 @@ class CreateQuoteRequestAction
             ['name'  => $data['customer_name']]
         );
 
-        // Create the quote request via relation (auto-injects user_id (printer))
+        // "Make" the quote request via relation (auto-injects user_id (printer))
         $quoteRequest = $printer->quoteRequests()->make([
             'customer_name'  => $data['customer_name'],
             'customer_email' => $data['customer_email'],
