@@ -20,7 +20,7 @@ class CreateQuoteRequestAction
         );
 
         // Create the quote request via relation (auto-injects user_id (printer))
-        $quoteRequest = $printer->quoteRequests()->create([
+        $quoteRequest = $printer->quoteRequests()->make([
             'customer_name'  => $data['customer_name'],
             'customer_email' => $data['customer_email'],
             'title'          => $data['title'],
@@ -28,11 +28,11 @@ class CreateQuoteRequestAction
             'quantity'       => $data['quantity'] ?? 1,
         ]);
 
-        // Assign customer via relation (associate and saves)
-        $quoteRequest->customer()->associate($customer); //maybe this could be in the create above, because parameters are the same.
+        // Assigning customer via direct property assignment
+        $quoteRequest->customer_id = $customer->id;
         $quoteRequest->save();
 
-        $quoteRequest->load('customer');
+        //$quoteRequest->load('customer'); optional line in case i want to return the quote request with the customer relationship loaded 
 
         return $quoteRequest;
     }
