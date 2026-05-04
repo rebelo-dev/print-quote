@@ -28,12 +28,12 @@ class CreateQuoteRequestAction
             'quantity'       => $data['quantity'] ?? 1,
         ]);
 
+
+        //$quoteRequest = $printer->quoteRequests()->make([$data]); tester line
+
         // Assigning customer via direct property assignment
         $quoteRequest->customer_id = $customer->id;
         $quoteRequest->save();
-
-        //$quoteRequest->load('customer'); optional line in case i want to return the quote request with the customer relationship loaded 
-
         return $quoteRequest;
     }
 }

@@ -7,22 +7,16 @@ use App\Actions\QuoteRequests\UpdateQuoteRequestStatusAction;
 use App\Models\QuoteRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreQuoteRequestRequest;
+use App\Http\Requests\UpdateQuoteRequestRequest;
 
 class QuoteRequestController extends Controller
 {
     // anyone can submit, no auth required
-    public function store(Request $request, CreateQuoteRequestAction $action): JsonResponse
+    public function store(StoreQuoteRequestRequest $request, CreateQuoteRequestAction $action): JsonResponse
     {
-        $data = $request->validate([
-            'customer_name'  => 'required|string|max:255',
-            'customer_email' => 'required|email',
-            'title'          => 'required|string|max:255',
-            'description'    => 'nullable|string',
-            'quantity'       => 'integer|min:1',
-            'slug'           => 'required|string|exists:users,slug',
-        ]);
-
-        $result = $action->execute($data);
+        $result = $action->execute($request->validated());
+        //$quoteRequest->load('customer'); optional line in case i want to return the quote request with the customer relationship loaded 
 
         return response()->json($result, 201);
     }
@@ -41,31 +35,15 @@ class QuoteRequestController extends Controller
 
     public function show(Request $request, QuoteRequest $quoteRequest): JsonResponse
     {
-        abort_if($quoteRequest->user_id !== $request->user()->id, 403);
-
+        $this->authorize('view', $quoteRequest);
         $quoteRequest->load('customer', 'quoteProposal');
-
         return response()->json($quoteRequest);
     }
 
-    public function update(Request $request, QuoteRequest $quoteRequest, UpdateQuoteRequestStatusAction $action): JsonResponse
+    public function update(UpdateQuoteRequestRequest $request, QuoteRequest $quoteRequest, UpdateQuoteRequestStatusAction $action): JsonResponse
     {
-        abort_if($quoteRequest->user_id !== $request->user()->id, 403);
-
-        $data = $request->validate([
-            'status' => 'required|in:rejected',
-        ]);
-
-        $result = $action->execute($quoteRequest, $data['status']);
-
+        $this->authorize('update', $quoteRequest);
+        $result = $action->execute($quoteRequest, $request->validated()['status']);
         return response()->json($result);
     }
 }
-
-
-/*
-Right now im checking ownership right here in the controller, but in a future iteration, I will be moving this into a policy class
-
-Also, data validation is being done in the controller for now, just like ownership check, in a future iteration, i will be moving this into form request classes
-
-*/
