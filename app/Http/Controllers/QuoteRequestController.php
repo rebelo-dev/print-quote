@@ -12,16 +12,14 @@ use App\Http\Requests\UpdateQuoteRequestRequest;
 
 class QuoteRequestController extends Controller
 {
-    // anyone can submit, no auth required
+    // Public access: anyone can submit, no auth required
     public function store(StoreQuoteRequestRequest $request, CreateQuoteRequestAction $action): JsonResponse
     {
         $result = $action->execute($request->validated());
-        //$quoteRequest->load('customer'); optional line in case i want to return the quote request with the customer relationship loaded 
-
         return response()->json($result, 201);
     }
 
-    // all below are for authenticated printers
+    // Private access: only authenticated printers can access
     public function index(Request $request): JsonResponse
     {
         $requests = $request->user()
@@ -37,7 +35,7 @@ class QuoteRequestController extends Controller
     {
         $this->authorize('view', $quoteRequest);
         $quoteRequest->load('customer', 'quoteProposal');
-        return response()->json($quoteRequest);
+        return response()->json($quoteRequest, 200);
     }
 
     public function update(UpdateQuoteRequestRequest $request, QuoteRequest $quoteRequest, UpdateQuoteRequestStatusAction $action): JsonResponse
@@ -47,3 +45,35 @@ class QuoteRequestController extends Controller
         return response()->json($result);
     }
 }
+
+/* 
+
+In a next iteration, I will be improving the JSON responses, I can load relationships as needed and return custom data and 
+messages of success, failure, errors, etc.
+
+
+I can use something like
+
+return response()->json([
+    'message' => 'Quote request created successfully',
+    'data' => $result
+], 201);
+
+or 
+
+something like:
+
+public function show(Request $request, QuoteRequest $quoteRequest): JsonResponse
+    {
+        $this->authorize('view', $quoteRequest);
+        $quoteRequest->load('customer', 'quoteProposal');
+        return response()->json($quoteRequest->load('customer', 'quoteProposal'), 200, [], JSON_PRETTY_PRINT);
+    }
+
+with errors:
+return response()->json([
+    'message' => 'Validation failed',
+    'errors' => $validator->errors()
+], 422);
+
+*/
