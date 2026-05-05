@@ -27,7 +27,7 @@ class StoreQuoteRequestRequest extends FormRequest
             'customer_email' => 'required|email',
             'title'          => 'required|string|max:255',
             'description'    => 'nullable|string',
-            'quantity'       => 'integer|min:1',
+            'quantity'       => 'required|integer|min:1',
             'slug'           => 'required|string|exists:users,slug',
         ];
     }

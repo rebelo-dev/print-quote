@@ -25,7 +25,7 @@ class CreateQuoteRequestAction
             'customer_email' => $data['customer_email'],
             'title'          => $data['title'],
             'description'    => $data['description'] ?? null,
-            'quantity'       => $data['quantity'] ?? 1,
+            'quantity'       => $data['quantity'], // ?? 1, we dont need it anymore because we require the minimum of 1 in validation process.
         ]);
 
 
