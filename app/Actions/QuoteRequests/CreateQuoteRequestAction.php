@@ -28,9 +28,6 @@ class CreateQuoteRequestAction
             'quantity'       => $data['quantity'], // ?? 1, we dont need it anymore because we require the minimum of 1 in validation process.
         ]);
 
-
-        //$quoteRequest = $printer->quoteRequests()->make([$data]); tester line
-
         // Assigning customer via direct property assignment
         $quoteRequest->customer_id = $customer->id;
         $quoteRequest->save();
