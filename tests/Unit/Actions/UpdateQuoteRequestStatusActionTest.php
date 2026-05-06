@@ -12,14 +12,6 @@ use Tests\TestCase;
 
 class UpdateQuoteRequestStatusActionTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
-    public function test_example(): void
-    {
-        $this->assertTrue(true);
-    }
-
     use RefreshDatabase;
 
     public function test_user_can_update_status(): void
@@ -27,9 +19,7 @@ class UpdateQuoteRequestStatusActionTest extends TestCase
         $user = User::factory()->create();
         assert($user instanceof User);
 
-        $quoteRequest = QuoteRequest::factory()->create([
-            'user_id' => $user->id,
-        ]);
+        $quoteRequest = QuoteRequest::factory()->for($user)->create();
 
         $response = $this->actingAs($user, 'sanctum')
             ->patchJson("/api/quote-requests/{$quoteRequest->id}", [

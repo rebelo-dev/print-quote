@@ -11,14 +11,6 @@ use Tests\TestCase;
 
 class CreateQuoteRequestActionTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     */
-    public function test_example(): void
-    {
-        $this->assertTrue(true);
-    }
-
     use RefreshDatabase;
 
     public function test_create_quote_request_action(): void

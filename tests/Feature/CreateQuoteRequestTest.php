@@ -11,17 +11,6 @@ use App\Models\QuoteRequest;
 
 class CreateQuoteRequestTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
-
     use RefreshDatabase;
 
     public function test_create_quote_request(): void

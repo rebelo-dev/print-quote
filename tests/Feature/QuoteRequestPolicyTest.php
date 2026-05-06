@@ -11,16 +11,6 @@ use App\Models\QuoteRequest;
 
 class QuoteRequestPolicyTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     use RefreshDatabase;
 
     public function test_quote_request_ownership(): void
