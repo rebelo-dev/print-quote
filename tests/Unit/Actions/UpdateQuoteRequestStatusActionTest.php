@@ -2,7 +2,13 @@
 
 namespace Tests\Unit\Actions;
 
-use PHPUnit\Framework\TestCase;
+//use PHPUnit\Framework\TestCase;
+use App\Actions\QuoteRequests\UpdateQuoteRequestStatusAction;
+use App\Models\QuoteRequest;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
 
 class UpdateQuoteRequestStatusActionTest extends TestCase
 {
@@ -14,24 +20,26 @@ class UpdateQuoteRequestStatusActionTest extends TestCase
         $this->assertTrue(true);
     }
 
+    use RefreshDatabase;
 
     public function test_user_can_update_status(): void
     {
         $user = User::factory()->create();
+        assert($user instanceof User);
 
-        $quote = QuoteRequest::factory()->create([
+        $quoteRequest = QuoteRequest::factory()->create([
             'user_id' => $user->id,
         ]);
 
         $response = $this->actingAs($user, 'sanctum')
-            ->patchJson("/api/quote-requests/{$quote->id}", [
+            ->patchJson("/api/quote-requests/{$quoteRequest->id}", [
                 'status' => 'rejected',
             ]);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('quote_requests', [
-            'id' => $quote->id,
+            'id' => $quoteRequest->id,
             'status' => 'rejected',
         ]);
     }

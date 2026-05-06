@@ -2,11 +2,12 @@
 
 namespace Tests\Unit\Actions;
 
-use PHPUnit\Framework\TestCase;
-use App\Actions\CreateQuoteRequestAction;
+//use PHPUnit\Framework\TestCase;
+//use App\Actions\CreateQuoteRequestAction;
+use App\Actions\QuoteRequests\CreateQuoteRequestAction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase
+use Tests\TestCase;
 
 class CreateQuoteRequestActionTest extends TestCase
 {
