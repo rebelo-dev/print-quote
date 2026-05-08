@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\QuoteRequest;
 use App\Policies\QuoteRequestPolicy;
 use Illuminate\Support\Facades\Gate;
+use App\Models\QuoteProposal;
+use App\Policies\QuoteProposalPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(QuoteRequest::class, QuoteRequestPolicy::class);
+        Gate::policy(QuoteProposal::class, QuoteProposalPolicy::class);
     }
 }
