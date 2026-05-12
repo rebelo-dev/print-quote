@@ -59,6 +59,8 @@ Route::middleware('auth:sanctum')->group(function () {
         //this is for the printer do edit a proposal after creation, before sending it to the customer to accept/reject a quote proposal
         Route::put('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
 
+        Route::patch('/quote-proposals/{quoteProposal}/send', [QuoteProposalController::class, 'send'])->name('quote-proposals.send');
+
         //this route is for the customer, to accept or reject a proposal, update action should handle both cases, or ill make a seperate action for it. I have acceptance tokens for this case since this will be a public route.
         Route::patch('/quote-proposals/{token??}/accept', [QuoteProposalController::class, 'accept'])->name('quote-proposals.accept');
         Route::patch('/quote-proposals/{token??}/reject', [QuoteProposalController::class, 'reject'])->name('quote-proposals.reject');

@@ -81,17 +81,19 @@ class QuoteProposalController extends Controller
         return response()->json($result);
     }
 
-    /*
+
     public function update(Request $request, QuoteProposal $quoteProposal): JsonResponse
     {
-        // WIP
+        $this->authorize('update', $quoteProposal);
 
-        return response()->json(['message' => 'WIP.'], 501);
+        // is the proposal a draft? 
+        if ($quoteProposal->status !== 'draft') {
+            return response()->json(['message' => 'Proposals can only be edited in draft mode.'], 422);
+        }
+
+        // validation and update
+        $quoteProposal->update($request->all());
+
+        return response()->json($quoteProposal);
     }
-
-    //handle? 
-
-    centralize actions?
-
-    */
 }
