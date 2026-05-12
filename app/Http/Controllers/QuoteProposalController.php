@@ -44,7 +44,7 @@ class QuoteProposalController extends Controller
         return response()->json($quoteProposal);
     }
 
-    public function store(StoreQuoteProposalRequest $request, CreateQuoteProposalAction $action, QuoteProposal $quoteProposal): JsonResponse
+    public function store(StoreQuoteProposalRequest $request, CreateQuoteProposalAction $action): JsonResponse
     {
         $data = $request->validated();
         // Find the quote request
@@ -81,7 +81,7 @@ class QuoteProposalController extends Controller
         return response()->json($result);
     }
 
-
+    //WIP
     public function update(Request $request, QuoteProposal $quoteProposal): JsonResponse
     {
         $this->authorize('update', $quoteProposal);
