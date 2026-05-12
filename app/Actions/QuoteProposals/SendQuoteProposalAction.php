@@ -18,3 +18,5 @@ class SendQuoteProposalAction
         return $quoteProposal;
     }
 }
+
+//need to generate a token for public acceptance/rejection upon trigering this action

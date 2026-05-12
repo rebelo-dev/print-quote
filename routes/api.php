@@ -60,10 +60,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
 
         //this route is for the customer, to accept or reject a proposal, update action should handle both cases, or ill make a seperate action for it. I have acceptance tokens for this case since this will be a public route.
-        //Route::patch('/quote-proposals/{quoteProposal}/respond', [QuoteProposalController::class, 'respond'])->name('quote-proposals.respond');
-        //Route::patch('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
-
-        //thinking if i should make a route to see proposals by quote request or maybe customer, same for quote-requests and then jobs, need to look into nested resources maybe, or make custom routes, idk
+        Route::patch('/quote-proposals/{token??}/accept', [QuoteProposalController::class, 'accept'])->name('quote-proposals.accept');
+        Route::patch('/quote-proposals/{token??}/reject', [QuoteProposalController::class, 'reject'])->name('quote-proposals.reject');
     });
 });
 

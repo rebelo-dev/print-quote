@@ -18,6 +18,11 @@ class QuoteProposalPolicy
         return $quoteProposal->user_id === $user->id;
     }
 
+    public function send(User $user, QuoteProposal $quoteProposal): bool
+    {
+        return $user->id === $quoteProposal->user_id && $quoteProposal->status === 'draft';
+    }
+
     /*
 
 
