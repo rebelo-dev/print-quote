@@ -59,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/quote-proposals', [QuoteProposalController::class, 'store'])->name('quote-proposals.store');
         Route::get('/quote-proposals', [QuoteProposalController::class, 'index'])->name('quote-proposals.index');
         Route::get('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'show'])->name('quote-proposals.show');
-        //Route::put('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
+        Route::put('/quote-proposals/{quoteProposal}', [QuoteProposalController::class, 'update'])->name('quote-proposals.update');
         Route::patch('/quote-proposals/{quoteProposal}/send', [QuoteProposalController::class, 'send'])->name('quote-proposals.send');
         Route::patch('/quote-proposals/{quoteProposal}/accept', [QuoteProposalController::class, 'accept'])->name('quote-proposals.accept');
         Route::patch('/quote-proposals/{quoteProposal}/reject', [QuoteProposalController::class, 'reject'])->name('quote-proposals.reject');

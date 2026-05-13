@@ -11,17 +11,14 @@ use App\Models\QuoteRequest;
 
 //DATA VALIDATION
 use App\Http\Requests\StoreQuoteProposalRequest;
-//use App\Http\Requests\UpdateQuoteProposalRequest;
+use App\Http\Requests\UpdateQuoteProposalRequest;
 
 //ACTIONS
 use App\Actions\QuoteProposals\CreateQuoteProposalAction;
-//use App\Actions\QuoteProposals\SendQuoteProposalAction;
+use App\Actions\QuoteProposals\SendQuoteProposalAction;
 use App\Actions\QuoteProposals\AcceptQuoteProposalAction;
 use App\Actions\QuoteProposals\RejectQuoteProposalAction;
-use App\Actions\QuoteProposals\SendQuoteProposalAction;
-
-//use App\Actions\QuoteProposals\RejectQuoteProposalAction;
-//use App\Actions\QuoteProposals\UpdateQuoteProposalAction;
+use App\Actions\QuoteProposals\UpdateQuoteProposalAction;
 
 
 class QuoteProposalController extends Controller
@@ -80,7 +77,7 @@ class QuoteProposalController extends Controller
 
         return response()->json($result);
     }
-
+    /*
     //WIP
     public function update(Request $request, QuoteProposal $quoteProposal): JsonResponse
     {
@@ -92,8 +89,23 @@ class QuoteProposalController extends Controller
         }
 
         // validation and update
-        $quoteProposal->update($request->all());
+        //$quoteProposal->update($request->all());
+
+        $quoteProposal->fill($request->validated());
+        $quoteProposal->save();
+
 
         return response()->json($quoteProposal);
+    }*/
+
+
+    public function update(UpdateQuoteProposalRequest $request, UpdateQuoteProposalAction $action, QuoteProposal $quoteProposal): JsonResponse
+    {
+
+        $this->authorize('update', $quoteProposal);
+
+        $result = $action->execute($request->validated(), $quoteProposal);
+
+        return response()->json($result, 201);
     }
 }

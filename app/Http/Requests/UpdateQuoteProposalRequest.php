@@ -23,7 +23,6 @@ class UpdateQuoteProposalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'action'           => 'required|in:update,send,accept,reject',
             'material_id'      => 'nullable|exists:materials,id',
             'title'            => 'sometimes|string|max:255',
             'description'      => 'nullable|string',
