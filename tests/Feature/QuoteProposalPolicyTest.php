@@ -17,6 +17,9 @@ class QuoteProposalPolicyTest extends TestCase
     {
         $printer1 = User::factory()->create();
         $printer2 = User::factory()->create();
+        assert($printer2 instanceof User);
+        // this is both to confirm that user2 is an instance of the user model and to let IDE recognize it as such, line above is not necessary for the test to work.
+
 
         $quoteRequest = QuoteRequest::factory()->for($printer1)->create();
         $proposal = QuoteProposal::factory()
@@ -33,6 +36,8 @@ class QuoteProposalPolicyTest extends TestCase
     {
         $printer1 = User::factory()->create();
         $printer2 = User::factory()->create();
+        assert($printer2 instanceof User);
+
 
         $quoteRequest = QuoteRequest::factory()->for($printer1)->create();
         $proposal = QuoteProposal::factory()

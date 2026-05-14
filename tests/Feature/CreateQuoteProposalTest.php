@@ -18,6 +18,8 @@ class CreateQuoteProposalTest extends TestCase
     public function test_printer_can_create_proposal(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $material = Material::factory()->for($printer)->create();
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
 
@@ -52,6 +54,8 @@ class CreateQuoteProposalTest extends TestCase
     {
         $printer1 = User::factory()->create();
         $printer2 = User::factory()->create();
+        assert($printer2 instanceof User);
+
         $quoteRequest = QuoteRequest::factory()->for($printer1)->create();
         $material = Material::factory()->for($printer2)->create();
 
@@ -70,6 +74,8 @@ class CreateQuoteProposalTest extends TestCase
     public function test_cannot_create_duplicate_proposal(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $material = Material::factory()->for($printer)->create();
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
 
@@ -99,6 +105,8 @@ class CreateQuoteProposalTest extends TestCase
     public function test_validation_fails_with_missing_required_fields(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
 
         $response = $this->actingAs($printer, 'sanctum')
             ->postJson('/api/quote-proposals', []);

@@ -16,6 +16,8 @@ class UpdateQuoteProposalTest extends TestCase
     public function test_printer_can_update_draft_proposal(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
         $proposal = QuoteProposal::factory()
             ->for($printer)
@@ -40,6 +42,8 @@ class UpdateQuoteProposalTest extends TestCase
     public function test_printer_cannot_update_sent_proposal(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
         $proposal = QuoteProposal::factory()
             ->for($printer)
@@ -57,6 +61,8 @@ class UpdateQuoteProposalTest extends TestCase
     public function test_send_changes_status_to_sent(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
         $proposal = QuoteProposal::factory()
             ->for($printer)
@@ -77,6 +83,8 @@ class UpdateQuoteProposalTest extends TestCase
     public function test_accept_creates_job_and_sets_accepted_at(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
         $proposal = QuoteProposal::factory()
             ->for($printer)
@@ -110,6 +118,8 @@ class UpdateQuoteProposalTest extends TestCase
     public function test_reject_changes_status_to_rejected(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
         $proposal = QuoteProposal::factory()
             ->for($printer)
@@ -130,6 +140,8 @@ class UpdateQuoteProposalTest extends TestCase
     public function test_cannot_accept_draft_proposal(): void
     {
         $printer = User::factory()->create();
+        assert($printer instanceof User);
+
         $quoteRequest = QuoteRequest::factory()->for($printer)->create();
         $proposal = QuoteProposal::factory()
             ->for($printer)
